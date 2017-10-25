@@ -18,7 +18,7 @@ RUN rm docker.tar.gz && docker -v
 
 ## Gradle
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 4.2.1
+ENV GRADLE_VERSION 4.1
 RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
 RUN unzip gradle.zip \
 	&& rm gradle.zip \
