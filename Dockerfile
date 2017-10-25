@@ -24,3 +24,15 @@ RUN unzip gradle.zip \
 	&& rm gradle.zip \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
 	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle 
+
+## Adding CI user
+RUN	echo "Adding ci user and group" \
+	&& groupadd --system --gid 1000 ci \
+	&& useradd --system --gid ci --uid 1000 --shell /bin/bash --create-home ci \
+	&& mkdir /home/ci/.ci \
+	&& chown --recursive ci:ci /home/ci
+
+# Create CI volume
+USER ci
+WORKDIR /home/ci
+
