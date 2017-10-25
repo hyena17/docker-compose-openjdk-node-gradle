@@ -23,16 +23,22 @@ RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions
 RUN unzip gradle.zip \
 	&& rm gradle.zip \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
-	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle 
+	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle \
+	\
+	&& echo "Adding gradle user and group" \
+	&& groupadd --system --gid 1000 gradle \
+	&& useradd --system --gid gradle --uid 1000 --shell /bin/bash --create-home gradle \
+	&& mkdir /home/gradle/.gradle \
+	&& chown --recursive gradle:gradle /home/gradle \
+	\
+	&& echo "Symlinking root Gradle cache to gradle Gradle cache" \
+	&& ln -s /home/gradle/.gradle /root/.gradle
 
-## Adding CI user
-RUN	echo "Adding ci user and group" \
-	&& groupadd --system --gid 1000 ci \
-	&& useradd --system --gid ci --uid 1000 --shell /bin/bash --create-home ci \
-	&& mkdir /home/ci/.ci \
-	&& chown --recursive ci:ci /home/ci
+# Create Gradle volume
+USER gradle
+VOLUME "/home/gradle/.gradle"
+WORKDIR /home/gradle
 
-# Create CI volume
-USER ci
-WORKDIR /home/ci
-
+RUN set -o errexit -o nounset \
+	&& echo "Testing Gradle installation" \
+	&& gradle --version
