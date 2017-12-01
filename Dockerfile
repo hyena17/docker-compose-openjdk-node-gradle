@@ -7,7 +7,7 @@ RUN curl -sL https://deb.nodesource.com/setup_9.x > install.sh && chmod +x insta
 RUN apt-get install -y nodejs
 
 ## Docker Compose
-RUN curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+RUN curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 
 ## Docker
@@ -18,9 +18,12 @@ RUN rm docker.tar.gz && docker -v
 RUN echo 'deb http://ftp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list.d/phantomjs.list
 RUN apt-get update && apt-get install -y phantomjs
 
+## Rancher Compose
+RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5/rancher-compose-linux-amd64-v0.12.5.tar.xz | tar xJvf -  --strip-components=2 -C /usr/local/bin/ && chmod +x /usr/local/bin/rancher-compose
+
 ## Gradle
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 4.3
+ENV GRADLE_VERSION 4.3.1
 RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
 RUN unzip gradle.zip \
 	&& rm gradle.zip \
