@@ -23,27 +23,23 @@ RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5
 
 ## Gradle
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 4.3.1
+ENV GRADLE_VERSION 4.5.1
 RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
 RUN unzip gradle.zip \
 	&& rm gradle.zip \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
-	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle \
-	\
-	&& echo "Adding gradle user and group" \
-	&& groupadd --system --gid 1000 gradle \
-	&& useradd --system --gid gradle --uid 1000 --shell /bin/bash --create-home gradle \
-	&& mkdir /home/gradle/.gradle \
-	&& chown --recursive gradle:gradle /home/gradle \
-	\
-	&& echo "Symlinking root Gradle cache to gradle Gradle cache" \
-	&& ln -s /home/gradle/.gradle /root/.gradle
+	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
 
-# Create Gradle volume
-USER gradle
-VOLUME "/home/gradle/.gradle"
-WORKDIR /home/gradle
+## emundo User
+RUN addgroup --gid 1101 docker && \
+    # Wir verwenden u.a. dieses Image in RancherOs und brauchen deswegen diese Gruppe: http://rancher.com/docs/os/v1.1/en/system-services/custom-system-services/#creating-your-own-console
+    useradd -ms /bin/bash emundo && \
+    adduser emundo sudo && \
+    chown --recursive emundo:emundo /home/emundo && \
+    # Das ist notwendig, damit das Image in RancherOS funktioniert
+    usermod -aG 1101 emundo && \
+    # Das ist notwendig, damit das Image lokal funktioniert
+    usermod -aG root emundo
 
-RUN set -o errexit -o nounset \
-	&& echo "Testing Gradle installation" \
-	&& gradle --version
+USER emundo
+WORKDIR /home/emundo
