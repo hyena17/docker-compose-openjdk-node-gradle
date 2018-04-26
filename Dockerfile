@@ -30,6 +30,9 @@ RUN unzip gradle.zip \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
 	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
 
+# Neustes npm
+RUN npm install -g npm@latest
+
 ## emundo User
 RUN addgroup --gid 1101 rancher && \
     # Für RancherOS brauchen wir diese Gruppe: http://rancher.com/docs/os/v1.1/en/system-services/custom-system-services/#creating-your-own-console
