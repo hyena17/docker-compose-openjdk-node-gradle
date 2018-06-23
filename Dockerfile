@@ -3,7 +3,7 @@ FROM openjdk:latest
 RUN apt-get update && apt-get install -y build-essential apt-transport-https ca-certificates curl gnupg2 software-properties-common tar
 
 ## Install Node
-RUN curl -sL https://deb.nodesource.com/setup_9.x > install.sh && chmod +x install.sh && ./install.sh
+RUN curl -sL https://deb.nodesource.com/setup_10.x > install.sh && chmod +x install.sh && ./install.sh
 RUN apt-get install -y nodejs
 
 ## Docker Compose
@@ -23,12 +23,12 @@ RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5
 
 ## Gradle
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 4.5.1
+ENV GRADLE_VERSION 4.8.1
 RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip
 RUN unzip gradle.zip \
-	&& rm gradle.zip \
-	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
-	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
+    && rm gradle.zip \
+    && mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
+    && ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
 
 # Neustes npm
 RUN npm install -g npm@latest
