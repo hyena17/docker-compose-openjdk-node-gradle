@@ -2,6 +2,12 @@ FROM openjdk:8-jdk
 
 RUN apt-get update && apt-get install -y build-essential apt-transport-https ca-certificates curl gnupg2 software-properties-common tar
 
+## Kubectl
+RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+RUN apt-get update
+RUN apt-get install -y kubectl
+
 ## Install Node
 RUN curl -sL https://deb.nodesource.com/setup_10.x > install.sh && chmod +x install.sh && ./install.sh
 RUN apt-get install -y nodejs
@@ -9,6 +15,10 @@ RUN apt-get install -y nodejs
 ## Docker Compose
 RUN curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
+
+# Kompose
+RUN curl -L https://github.com/kubernetes/kompose/releases/download/v1.17.0/kompose-linux-amd64 -o /usr/local/bin/kompose
+RUN chmod +x /usr/local/bin/kompose
 
 ## Docker
 RUN curl https://download.docker.com/linux/static/stable/x86_64/docker-18.06.1-ce.tgz > docker.tar.gz && tar xzvf docker.tar.gz -C /usr/local/bin/ --strip-components=1
