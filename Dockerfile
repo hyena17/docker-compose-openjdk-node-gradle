@@ -1,4 +1,7 @@
-FROM openjdk:8-jdk
+ARG base_image=openjdk:8-jdk
+
+FROM $base_image
+ARG gradle_version=4.10.3
 
 RUN apt-get update && apt-get install -y wget build-essential apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
 
@@ -24,7 +27,7 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-co
 
 # Kompose
 RUN curl -L https://github.com/kubernetes/kompose/releases/download/v1.17.0/kompose-linux-amd64 -o /usr/local/bin/kompose && \
-    chmod +x /usr/local/bin/kompose && \ 
+    chmod +x /usr/local/bin/kompose && \
     kompose -v
 
 ## Rancher Compose
@@ -38,15 +41,14 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x > install.sh && chmod +x inst
 
 ## PhantomJS
 RUN echo 'deb http://ftp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list.d/phantomjs.list && \
-    apt-get update && apt-get install -y phantomjs
+apt-get update && apt-get install -y phantomjs
 
 ## Gradle
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 4.10.2
-RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
+RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${gradle_version}-bin.zip && \
     unzip gradle.zip && \
     rm gradle.zip && \
-    mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" && \
+    mv "gradle-${gradle_version}" "${GRADLE_HOME}/" && \
     ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
 
 # Neustes npm
