@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG="robertschreib/docker-compose-openjdk-node-gradle:${BASE_IMAGE_TAG}"
+TAG="emundo/docker-compose-openjdk-node-gradle:${BASE_IMAGE_TAG}"
 
 
 # Hole alle möglichen gradle release versionen
