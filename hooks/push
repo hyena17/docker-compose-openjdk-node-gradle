@@ -4,7 +4,7 @@
 
 
 # Nur pushen wenn der Commit auf dem master ist
-echo "Current Branch: $SOURCE_BRANCH"
+echo "Aktueller Branch: $SOURCE_BRANCH"
 if [ "${SOURCE_BRANCH}" != "master" ]; then
     exit 0
 fi

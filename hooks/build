@@ -7,7 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DIR/versions.sh
 
 while read -r line; do
-    if [ ${#line} -ne 0 ]; then  # Ignore the empty lines
+    if [ ${#line} -ne 0 ]; then  # Ignoriere leerzeilen
         eval "$line source $DIR/build.sh"
     fi
 done <<< "$VARS"
