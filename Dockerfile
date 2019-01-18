@@ -1,4 +1,7 @@
-FROM openjdk:8-jdk
+ARG BASE_IMAGE=openjdk:8-jdk
+
+FROM $BASE_IMAGE
+ARG GRADLE_VERSION=4.10.3
 
 RUN apt-get update && apt-get install -y wget build-essential apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
 
@@ -24,7 +27,7 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-co
 
 # Kompose
 RUN curl -L https://github.com/kubernetes/kompose/releases/download/v1.17.0/kompose-linux-amd64 -o /usr/local/bin/kompose && \
-    chmod +x /usr/local/bin/kompose && \ 
+    chmod +x /usr/local/bin/kompose && \
     kompose -v
 
 ## Rancher Compose
@@ -42,7 +45,6 @@ RUN echo 'deb http://ftp.debian.org/debian jessie-backports main' >> /etc/apt/so
 
 ## Gradle
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 4.10.2
 RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
     unzip gradle.zip && \
     rm gradle.zip && \
