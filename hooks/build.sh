@@ -2,17 +2,17 @@
 
 TAG="emundo/docker-compose-openjdk-node-gradle:${IMAGE_TAG}"
 
-echo 'Lade alle verfügbraen Gradle Versionen'
+echo 'Lade alle verfügbaren Gradle-Versionen'
 PAGE_URL='https://services.gradle.org/versions/all'
 PAGE_DATA="$(curl -fsSL "$PAGE_URL")"
-# Parse alle Release Versionen aus json String
+# Parse alle Release-Versionen aus JSON-String
 allGradleVersions=()
 allGradleVersions=( $(
 		echo "$PAGE_DATA" \
 			| grep -oP '(?<="version" : ")[\d.]+(?=",)'
 ))
 
-# Suche die höchste Minor Version die passt
+# Suche die höchste Minor-Version die passt
 FULL_GRADLE_VERSION="$(
 		echo "${allGradleVersions[@]}" | xargs -n1 \
 			| grep -E "^${GRADLE_VERSION}(.*)$" \
