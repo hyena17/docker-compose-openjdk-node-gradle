@@ -1,7 +1,7 @@
-ARG base_image=openjdk:8-jdk
+ARG BASE_IMAGE=openjdk:8-jdk
 
 FROM $base_image
-ARG gradle_version=4.10.3
+ARG GRADLE_VERSION=4.10.3
 
 RUN apt-get update && apt-get install -y wget build-essential apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
 
@@ -48,7 +48,7 @@ ENV GRADLE_HOME /opt/gradle
 RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${gradle_version}-bin.zip && \
     unzip gradle.zip && \
     rm gradle.zip && \
-    mv "gradle-${gradle_version}" "${GRADLE_HOME}/" && \
+    mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" && \
     ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
 
 # Neustes npm

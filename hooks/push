@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 # Don't push images if branch is not master
 echo "Current Branch: $SOURCE_BRANCH"
