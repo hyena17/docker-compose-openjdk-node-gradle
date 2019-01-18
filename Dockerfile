@@ -1,6 +1,6 @@
 ARG BASE_IMAGE=openjdk:8-jdk
 
-FROM $base_image
+FROM $BASE_IMAGE
 ARG GRADLE_VERSION=4.10.3
 
 RUN apt-get update && apt-get install -y wget build-essential apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
@@ -45,7 +45,7 @@ apt-get update && apt-get install -y phantomjs
 
 ## Gradle
 ENV GRADLE_HOME /opt/gradle
-RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${gradle_version}-bin.zip && \
+RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
     unzip gradle.zip && \
     rm gradle.zip && \
     mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" && \

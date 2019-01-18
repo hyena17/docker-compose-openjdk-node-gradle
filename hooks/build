@@ -1,4 +1,6 @@
 #!/bin/bash
+# Mit diesem Script wird der Docker Hub build Prozess gehooked, 
+# damit mehrere Tags auf einmal gebaut werden können.
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 

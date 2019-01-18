@@ -2,7 +2,6 @@
 
 TAG="emundo/docker-compose-openjdk-node-gradle:${BASE_IMAGE_TAG}"
 
-# Hole alle möglichen gradle release versionen
 echo 'Lade alle verfügbraen Gradle Versionen'
 PAGE_URL='https://services.gradle.org/versions/all'
 PAGE_DATA="$(curl -fsSL "$pageUrl")"
@@ -13,7 +12,7 @@ allGradleVersions=( $(
 			| grep -oP '(?<="version" : ")[\d.]+(?=",)'
 ))
 
-# Lade höchste Minor Version die passt
+# Suche die höchste Minor Version die passt
 FULL_GRADLE_VERSION="$(
 		echo "${allGradleVersions[@]}" | xargs -n1 \
 			| grep -E "^${GRADLE_VERSION}(.*)$" \
@@ -21,8 +20,7 @@ FULL_GRADLE_VERSION="$(
 			| tail -1
 	    )" || true
 echo "Benutze Gradle ${FULL_GRADLE_VERSION}"
-echo "Benutzer Base Image ${BASE_IMAGE}"
-set -x
+echo "Benutze Base Image ${BASE_IMAGE}"
 
 docker build . \
     --no-cache \
