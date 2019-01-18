@@ -1,10 +1,10 @@
 #!/bin/bash
 
-TAG="emundo/docker-compose-openjdk-node-gradle:${BASE_IMAGE_TAG}"
+TAG="emundo/docker-compose-openjdk-node-gradle:${IMAGE_TAG}"
 
 echo 'Lade alle verfügbraen Gradle Versionen'
 PAGE_URL='https://services.gradle.org/versions/all'
-PAGE_DATA="$(curl -fsSL "$pageUrl")"
+PAGE_DATA="$(curl -fsSL "$PAGE_URL")"
 # Parse alle Release Versionen aus json String
 allGradleVersions=()
 allGradleVersions=( $(
@@ -23,10 +23,16 @@ echo "Benutze Gradle ${FULL_GRADLE_VERSION}"
 echo "Benutze Base Image ${BASE_IMAGE}"
 
 docker build . \
-    --no-cache \
     -t "$TAG" \
     --build-arg base_image=$BASE_IMAGE \
     --build-arg gradle_version=$FULL_GRADLE_VERSION
 
-image_id=$(docker images $TAG --format "{{.ID}}")
+IMAGE_ID=$(docker images $TAG --format "{{.ID}}")
+
+
+for tag in ${EXTRA_TAGS//;/$'\n'}
+do
+    echo $tag
+    docker tag $IMAGE_ID "emundo/docker-compose-openjdk-node-gradle:${tag}"
+done
 
