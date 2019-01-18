@@ -41,7 +41,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x > install.sh && chmod +x inst
 
 ## PhantomJS
 RUN echo 'deb http://ftp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list.d/phantomjs.list && \
-apt-get update && apt-get install -y phantomjs
+    apt-get update && apt-get install -y phantomjs
 
 ## Gradle
 ENV GRADLE_HOME /opt/gradle
