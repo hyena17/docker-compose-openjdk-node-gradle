@@ -1,5 +1,5 @@
 FROM ubuntu:rolling AS BASE_IMAGE
-RUN apt-get update && apt-get install -y wget build-essential apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
+RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
 
 ## Helm Tiller
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash && \
@@ -35,7 +35,6 @@ RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5
 RUN curl -sL https://deb.nodesource.com/setup_10.x > install.sh && chmod +x install.sh && ./install.sh && \
     apt-get install -y nodejs
 
-# TODO vielleicht wieder Phantomjs rein :(
 # Neustes npm
 RUN npm install -g npm@latest
 

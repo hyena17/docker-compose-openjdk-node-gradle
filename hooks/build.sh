@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG="emundo/docker-compose-openjdk-node-gradle:${IMAGE_TAG}"
+TAG="robertschreib/docker-compose-openjdk-node-gradle-test:${IMAGE_TAG}"
 
 echo 'Lade alle verfügbaren Gradle-Versionen'
 PAGE_URL='https://services.gradle.org/versions/all'
@@ -33,6 +33,6 @@ IMAGE_ID=$(docker images $TAG --format "{{.ID}}")
 for tag in ${EXTRA_TAGS//;/$'\n'}
 do
     echo $tag
-    docker tag $IMAGE_ID "emundo/docker-compose-openjdk-node-gradle:${tag}"
+    docker tag $IMAGE_ID "robertschreib/docker-compose-openjdk-node-gradle-test:${tag}"
 done
 

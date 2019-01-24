@@ -9,7 +9,11 @@ if [ "${SOURCE_BRANCH}" != "master" ]; then
     exit 0
 fi
 
-for tag in $(docker images emundo/docker-compose-openjdk-node-gradle --format "{{.Tag}}");
+for tag in $(docker images robertschreib/docker-compose-openjdk-node-gradle-test --format "{{.Tag}}");
 do
-    docker push "emundo/docker-compose-openjdk-node-gradle:${tag}"
+    echo "TAG: '${tag}'"
+    if [[ $tag != "<none>" ]]; then
+        echo "Tag: '${tag}' wird gepushed!"
+        docker push "robertschreib/docker-compose-openjdk-node-gradle-test:${tag}"
+    fi
 done
