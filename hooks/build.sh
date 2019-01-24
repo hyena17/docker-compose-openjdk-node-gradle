@@ -24,7 +24,7 @@ echo "Benutze Base Image ${BASE_IMAGE}"
 
 docker build . \
     -t "$TAG" \
-    --build-arg BASE_IMAGE=$BASE_IMAGE \
+    --build-arg JDK_VERSION=$BASE_IMAGE \
     --build-arg GRADLE_VERSION=$FULL_GRADLE_VERSION
 
 IMAGE_ID=$(docker images $TAG --format "{{.ID}}")
