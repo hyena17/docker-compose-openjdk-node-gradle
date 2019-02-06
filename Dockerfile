@@ -1,6 +1,7 @@
 FROM ubuntu:rolling AS BASE_IMAGE
 RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
-
+# Standard Encoding von ASCII auf UTF-8 stellen
+ENV LANG C.UTF-8
 ## Helm Tiller
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash && \
     helm version --client && \
