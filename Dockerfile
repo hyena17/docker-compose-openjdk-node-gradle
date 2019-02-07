@@ -1,10 +1,7 @@
-ARG BASE_IMAGE=openjdk:8-jdk
-
-FROM $BASE_IMAGE
-ARG GRADLE_VERSION=4.10.3
-
-RUN apt-get update && apt-get install -y wget build-essential apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
-
+FROM ubuntu:rolling AS BASE_IMAGE
+RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
+# Standard Encoding von ASCII auf UTF-8 stellen
+ENV LANG C.UTF-8
 ## Helm Tiller
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash && \
     helm version --client && \
@@ -39,10 +36,14 @@ RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5
 RUN curl -sL https://deb.nodesource.com/setup_10.x > install.sh && chmod +x install.sh && ./install.sh && \
     apt-get install -y nodejs
 
-## PhantomJS
-RUN echo 'deb http://ftp.debian.org/debian jessie-backports main' >> /etc/apt/sources.list.d/phantomjs.list && \
-    apt-get update && apt-get install -y phantomjs
+# Neustes npm
+RUN npm install -g npm@latest
 
+FROM BASE_IMAGE
+ARG GRADLE_VERSION=4.10.3
+ARG JDK_VERSION=8
+## Openjdk 
+RUN apt install -y openjdk-${JDK_VERSION}-jdk-headless 
 ## Gradle
 ENV GRADLE_HOME /opt/gradle
 RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
@@ -50,9 +51,6 @@ RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions
     rm gradle.zip && \
     mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" && \
     ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
-
-# Neustes npm
-RUN npm install -g npm@latest
 
 ## emundo User
 RUN addgroup --gid 1101 rancher && \
@@ -67,6 +65,5 @@ RUN addgroup --gid 1101 rancher && \
     usermod -aG 1101 emundo && \
     # Das ist notwendig, damit das Image lokal funktioniert
     usermod -aG root emundo
-
 USER emundo
 WORKDIR /home/emundo
