@@ -1,9 +1,7 @@
 #!/bin/bash
 # Mit diesem Script wird der Docker Hub push Prozess gehooked, 
 # damit mehrere Tags auf einmal in das Repository gepushed werden können.
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source $DIR/versions.sh
 
 # Nur pushen wenn der Commit auf dem master ist
 echo "Aktueller Branch: $SOURCE_BRANCH"
@@ -11,11 +9,7 @@ if [ "${SOURCE_BRANCH}" != "master" ]; then
     exit 0
 fi
 
-for tag in $(docker images "${IMAGE}" --format "{{.Tag}}");
+for tag in $(docker images emundo/docker-compose-openjdk-node-gradle --format "{{.Tag}}");
 do
-    echo "TAG: '${tag}'"
-    if [[ $tag != "<none>" ]]; then
-        echo "Tag: '${tag}' wird gepushed!"
-        docker push "${IMAGE}:${tag}"
-    fi
+    docker push "emundo/docker-compose-openjdk-node-gradle:${tag}"
 done
