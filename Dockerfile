@@ -65,4 +65,5 @@ RUN addgroup --gid 1101 rancher && \
     usermod -aG 1101 emundo && \
     # Das ist notwendig, damit das Image lokal funktioniert
     usermod -aG root emundo
-
+USER emundo
+WORKDIR /home/emundo

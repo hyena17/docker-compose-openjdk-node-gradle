@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 source $DIR/versions.sh
 
- # Nur pushen wenn der Commit auf dem master ist
+# Nur pushen wenn der Commit auf dem master ist
 echo "Aktueller Branch: $SOURCE_BRANCH"
 if [ "${SOURCE_BRANCH}" != "master" ]; then
     exit 0
