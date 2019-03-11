@@ -39,7 +39,7 @@ RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5
     chmod +x /usr/local/bin/rancher-compose && \
     rancher-compose --version
 
-## Install Node
+## Node.js
 ARG NODE=10.x
 RUN curl -sL https://deb.nodesource.com/setup_${NODE} > install.sh && chmod +x install.sh && ./install.sh && \
     apt-get install -y nodejs\
@@ -47,20 +47,23 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE} > install.sh && chmod +x i
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
     && rm install.sh
 
-# Neustes npm
+# npm
 RUN npm install -g npm@latest
 
-ARG JDK_VERSION=8
 # Standard Encoding von ASCII auf UTF-8 stellen
 ENV LANG C.UTF-8
-## Openjdk
+
+## OpenJDK
+ARG JDK_VERSION=8
 RUN apt-get update && apt-get install -y --no-install-recommends openjdk-${JDK_VERSION}-jdk-headless \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
 ## Gradle
 ARG GRADLE_VERSION=4.10.3
 ENV GRADLE_HOME /opt/gradle
-RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
+RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
+    --output-document=gradle.zip && \
     unzip gradle.zip && \
     rm gradle.zip && \
     mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" && \

@@ -29,7 +29,6 @@ docker build . \
 
 IMAGE_ID=$(docker images $TAG --format "{{.ID}}")
 
-
 for tag in ${EXTRA_TAGS//;/$'\n'}
 do
     echo $tag

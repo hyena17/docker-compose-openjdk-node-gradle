@@ -8,7 +8,6 @@ source $DIR/versions.sh
 
 # Nur pushen wenn der Commit auf dem master ist
 
-
 for tag in $(docker images $IMAGE --format "{{.Tag}}");
 do
     docker push "${IMAGE}:${tag}"
