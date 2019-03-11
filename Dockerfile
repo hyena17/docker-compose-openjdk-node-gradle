@@ -1,5 +1,8 @@
-FROM ubuntu:rolling AS BASE_IMAGE
-RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip
+FROM ubuntu:rolling
+
+RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip\
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 ## Helm Tiller
 RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash && \
@@ -9,20 +12,25 @@ RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash &
 ## Kubectl
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
     echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && \
-    apt-get update && apt-get install -y kubectl
+    apt-get update && apt-get install -y kubectl \
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 ## Docker
-RUN curl https://download.docker.com/linux/static/stable/x86_64/docker-18.09.3.tgz > docker.tar.gz && tar xzvf docker.tar.gz -C /usr/local/bin/ --strip-components=1 && \
+ARG DOCKER=18.09.3
+RUN curl https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER}.tgz > docker.tar.gz && tar xzvf docker.tar.gz -C /usr/local/bin/ --strip-components=1 && \
     rm docker.tar.gz && \
     docker -v
 
 ## Docker Compose
-RUN curl -L https://github.com/docker/compose/releases/download/1.23.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && \
+ARG DOCKER_COMPOSE=1.23.2
+RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && \
     chmod +x /usr/local/bin/docker-compose && \
     docker-compose -v
 
 # Kompose
-RUN curl -L https://github.com/kubernetes/kompose/releases/download/v1.17.0/kompose-linux-amd64 -o /usr/local/bin/kompose && \
+ARG KOMPOSE=v1.17.0
+RUN curl -L https://github.com/kubernetes/kompose/releases/download/${KOMPOSE}/kompose-linux-amd64 -o /usr/local/bin/kompose && \
     chmod +x /usr/local/bin/kompose && \
     kompose -v
 
@@ -32,20 +40,25 @@ RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5
     rancher-compose --version
 
 ## Install Node
-RUN curl -sL https://deb.nodesource.com/setup_10.x > install.sh && chmod +x install.sh && ./install.sh && \
-    apt-get install -y nodejs
+ARG NODE=10.x
+RUN curl -sL https://deb.nodesource.com/setup_${NODE} > install.sh && chmod +x install.sh && ./install.sh && \
+    apt-get install -y nodejs\
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
+    && rm install.sh
 
 # Neustes npm
 RUN npm install -g npm@latest
 
-FROM BASE_IMAGE
-ARG GRADLE_VERSION=4.10.3
 ARG JDK_VERSION=8
 # Standard Encoding von ASCII auf UTF-8 stellen
 ENV LANG C.UTF-8
 ## Openjdk
-RUN apt-get install -y --no-install-recommends openjdk-${JDK_VERSION}-jdk-headless
+RUN apt-get update && apt-get install -y --no-install-recommends openjdk-${JDK_VERSION}-jdk-headless \
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 ## Gradle
+ARG GRADLE_VERSION=4.10.3
 ENV GRADLE_HOME /opt/gradle
 RUN wget --output-document=gradle.zip  https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
     unzip gradle.zip && \
