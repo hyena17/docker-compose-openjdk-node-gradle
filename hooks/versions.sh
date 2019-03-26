@@ -3,7 +3,9 @@ export IMAGE='emundo/docker-compose-openjdk-node-gradle'
 export VARS='
 JDK_VERSION=11 GRADLE_VERSION=5.1 IMAGE_TAG="openjdk-11-gradle-5.1"
 JDK_VERSION=11 GRADLE_VERSION=5.2 IMAGE_TAG="openjdk-11-gradle-5.2"
+JDK_VERSION=11 GRADLE_VERSION=5.3 IMAGE_TAG="openjdk-11-gradle-5.3"
 JDK_VERSION=8 GRADLE_VERSION=5.1 IMAGE_TAG="openjdk-8-gradle-5.1"
+JDK_VERSION=8 GRADLE_VERSION=5.3 IMAGE_TAG="openjdk-8-gradle-5.3"
 JDK_VERSION=8 GRADLE_VERSION=5.2 IMAGE_TAG="openjdk-8-gradle-5.2"
 JDK_VERSION=8 GRADLE_VERSION=4.10 IMAGE_TAG="openjdk-8-gradle-4.10" EXTRA_TAGS="openjdk-8;latest"
 JDK_VERSION=11 GRADLE_VERSION=4.10 IMAGE_TAG="openjdk-11-gradle-4.10" EXTRA_TAGS="openjdk-11"
