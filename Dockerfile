@@ -55,7 +55,7 @@ ENV LANG C.UTF-8
 
 ## OpenJDK
 ARG JDK_VERSION=8
-RUN apt-get update && apt-get install -y --no-install-recommends openjdk-${JDK_VERSION}-jdk-headless \
+RUN apt-get update && apt-get install -y --no-install-recommends openjdk-${JDK_VERSION}-jdk \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
