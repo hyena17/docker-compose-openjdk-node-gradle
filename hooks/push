@@ -10,5 +10,7 @@ source $DIR/versions.sh
 
 for tag in $(docker images $IMAGE --format "{{.Tag}}");
 do
-    docker push "${IMAGE}:${tag}"
+    if [[ $tag != "<none>" ]]; then
+        docker push "${IMAGE}:${tag}"
+    fi
 done
