@@ -28,11 +28,12 @@ RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE
     chmod +x /usr/local/bin/docker-compose && \
     docker-compose -v
 
-# Kompose
-ARG KOMPOSE=v1.17.0
-RUN curl -L https://github.com/kubernetes/kompose/releases/download/${KOMPOSE}/kompose-linux-amd64 -o /usr/local/bin/kompose && \
-    chmod +x /usr/local/bin/kompose && \
-    kompose -v
+# Google Cloud CLI
+RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
+    echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    apt-get update && apt-get install -y google-cloud-sdk \
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 ## Rancher Compose
 RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5/rancher-compose-linux-amd64-v0.12.5.tar.xz | tar xJvf -  --strip-components=2 -C /usr/local/bin/ && \
