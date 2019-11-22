@@ -1,4 +1,4 @@
-FROM ubuntu:rolling
+FROM ubuntu:disco
 
 RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip\
     && apt-get autoclean \
