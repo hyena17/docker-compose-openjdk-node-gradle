@@ -1,6 +1,7 @@
 #!/bin/bash
 export IMAGE='emundo/docker-compose-openjdk-node-gradle'
 export VARS='
+JDK_VERSION=14 GRADLE_VERSION=6 IMAGE_TAG="openjdk-14-gradle-6" EXTRA_TAGS="openjdk-14"
 JDK_VERSION=13 GRADLE_VERSION=5.4 IMAGE_TAG="openjdk-13-gradle-5.4"
 JDK_VERSION=13 GRADLE_VERSION=5.5 IMAGE_TAG="openjdk-13-gradle-5.5"
 JDK_VERSION=13 GRADLE_VERSION=5.6 IMAGE_TAG="openjdk-13-gradle-5.6" EXTRA_TAGS="openjdk-13"
