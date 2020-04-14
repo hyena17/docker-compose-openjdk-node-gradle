@@ -16,11 +16,6 @@ RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE
     chmod +x /usr/local/bin/docker-compose && \
     docker-compose -v
 
-## Rancher Compose
-RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5/rancher-compose-linux-amd64-v0.12.5.tar.xz | tar xJvf -  --strip-components=2 -C /usr/local/bin/ && \
-    chmod +x /usr/local/bin/rancher-compose && \
-    rancher-compose --version
-
 ## Node.js
 ARG NODE=12.x
 RUN curl -sL https://deb.nodesource.com/setup_${NODE} > install.sh && chmod +x install.sh && ./install.sh && \
