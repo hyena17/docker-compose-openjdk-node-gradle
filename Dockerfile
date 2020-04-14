@@ -1,4 +1,25 @@
-FROM emundo/ci-base
+FROM ubuntu:rolling
+
+RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip\
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+## Docker
+ARG DOCKER=19.03.8
+RUN curl https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER}.tgz > docker.tar.gz && tar xzvf docker.tar.gz -C /usr/local/bin/ --strip-components=1 && \
+    rm docker.tar.gz && \
+    docker -v
+
+## Docker Compose
+ARG DOCKER_COMPOSE=1.25.4
+RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose && \
+    docker-compose -v
+
+## Rancher Compose
+RUN curl -L https://github.com/rancher/rancher-compose/releases/download/v0.12.5/rancher-compose-linux-amd64-v0.12.5.tar.xz | tar xJvf -  --strip-components=2 -C /usr/local/bin/ && \
+    chmod +x /usr/local/bin/rancher-compose && \
+    rancher-compose --version
 
 ## Node.js
 ARG NODE=12.x
@@ -10,6 +31,9 @@ RUN curl -sL https://deb.nodesource.com/setup_${NODE} > install.sh && chmod +x i
 
 # npm
 RUN npm install -g npm@latest
+
+# Standard Encoding von ASCII auf UTF-8 stellen
+ENV LANG C.UTF-8
 
 ## OpenJDK
 ARG JDK_VERSION=8
