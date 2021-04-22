@@ -16,17 +16,6 @@ RUN curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE
     chmod +x /usr/local/bin/docker-compose && \
     docker-compose -v
 
-## Node.js
-ARG NODE=12.x
-RUN curl -sL https://deb.nodesource.com/setup_${NODE} > install.sh && chmod +x install.sh && ./install.sh && \
-    apt-get install -y nodejs\
-    && apt-get autoclean \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-    && rm install.sh
-
-# npm
-RUN npm install -g npm@latest
-
 # Standard Encoding von ASCII auf UTF-8 stellen
 ENV LANG C.UTF-8
 
@@ -35,20 +24,9 @@ ARG JDK_VERSION=8
 RUN apt-get update && apt-get install -y --no-install-recommends openjdk-${JDK_VERSION}-jdk \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
-    
-
-## Gradle
-ARG GRADLE_VERSION=4.10.3
-ENV GRADLE_HOME /opt/gradle
-RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
-    --output-document=gradle.zip && \
-    unzip gradle.zip && \
-    rm gradle.zip && \
-    mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" && \
-    ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
 
 ## Maven
-RUN apt-get install maven
+RUN apt update && apt install maven
 
 ## emundo User
 RUN addgroup --gid 1101 rancher && \
