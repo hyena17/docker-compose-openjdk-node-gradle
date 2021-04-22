@@ -26,7 +26,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends openjdk-${JDK_V
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 ## Maven
-RUN apt update && apt install maven
+RUN wget --no-verbose -O /tmp/apache-maven-3.3.9.tar.gz http://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+RUN tar xzf /tmp/apache-maven-3.3.9.tar.gz -C /opt/
+RUN ln -s /opt/apache-maven-3.3.9 /opt/maven
+RUN ln -s /opt/maven/bin/mvn /usr/local/bin
+RUN rm -f /tmp/apache-maven-3.3.9.tar.gz
+ENV MAVEN_HOME /opt/maven
 
 ## emundo User
 RUN addgroup --gid 1101 rancher && \
