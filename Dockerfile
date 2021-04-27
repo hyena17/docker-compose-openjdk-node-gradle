@@ -4,6 +4,9 @@ RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificate
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
+## Python
+RUN apt install python3.8
+
 ## Docker
 ARG DOCKER=20.10.5
 RUN curl https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER}.tgz > docker.tar.gz && tar xzvf docker.tar.gz -C /usr/local/bin/ --strip-components=1 && \
