@@ -52,7 +52,7 @@ RUN case $SCALA_VERSION in \
     "3"*) echo "@main def main = println(util.Properties.versionMsg)" > test.scala ;; \
     *) echo "println(util.Properties.versionMsg)" > test.scala ;; \
   esac && \
-  scala -nocompdaemon test.scala && rm test.scala &&\\
+  scala -nocompdaemon test.scala && rm test.scala && \
   scala --version
 
 ## Maven
