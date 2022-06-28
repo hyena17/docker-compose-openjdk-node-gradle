@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificate
 RUN apt install python3
 
 ## Docker
-ARG DOCKER=20.10.5
+ARG DOCKER=20.10.14
 RUN curl https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER}.tgz > docker.tar.gz && tar xzvf docker.tar.gz -C /usr/local/bin/ --strip-components=1 && \
     rm docker.tar.gz && \
     docker -v
