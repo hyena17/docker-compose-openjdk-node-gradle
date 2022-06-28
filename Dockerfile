@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificate
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 ## Python
-RUN apt install python3.8
+RUN apt install python3
 
 ## Docker
 ARG DOCKER=20.10.5
@@ -14,9 +14,9 @@ RUN curl https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER}
     docker -v
 
 ## Docker Compose
-ARG DOCKER_COMPOSE=1.29.0
-RUN curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
-    chmod +x /usr/local/bin/docker-compose
+ARG DOCKER_COMPOSE=v2.6.1
+RUN curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose && \
     docker-compose -v
 
 # Standard Encoding von ASCII auf UTF-8 stellen
