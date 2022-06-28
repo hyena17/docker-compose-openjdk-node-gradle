@@ -28,6 +28,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends openjdk-${JDK_V
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
+## Scala
+RUN apt-get install scala
+
 ## Maven
 RUN wget --no-verbose -O /tmp/apache-maven-3.8.1.tar.gz http://archive.apache.org/dist/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz
 
