@@ -1,4 +1,4 @@
-FROM sbtscala/scala-sbt:17.0.2_1.6.2_3.1.3
+FROM sbtscala/scala-sbt
 
 RUN apt-get update && apt-get install -y wget apt-transport-https ca-certificates curl gnupg2 software-properties-common tar git openssl gzip unzip\
     && apt-get autoclean \
