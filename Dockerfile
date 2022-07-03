@@ -29,12 +29,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends openjdk-${JDK_V
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
 
 ## Maven
-RUN wget --no-verbose -O /tmp/apache-maven-3.8.1.tar.gz http://archive.apache.org/dist/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz
+RUN wget --no-verbose -O /tmp/apache-maven-3.8.5.tar.gz http://archive.apache.org/dist/maven/maven-3/3.8.1/binaries/apache-maven-3.8.5-bin.tar.gz
 
-RUN tar xzf /tmp/apache-maven-3.8.1.tar.gz -C /opt/
-RUN ln -s /opt/apache-maven-3.8.1 /opt/maven
+RUN tar xzf /tmp/apache-maven-3.8.5.tar.gz -C /opt/
+RUN ln -s /opt/apache-maven-3.8.5 /opt/maven
 RUN ln -s /opt/maven/bin/mvn /usr/local/bin
-RUN rm -f /tmp/apache-maven-3.8.1.tar.gz
+RUN rm -f /tmp/apache-maven-3.8.5.tar.gz
 ENV MAVEN_HOME /opt/maven
 
 ## emundo User
